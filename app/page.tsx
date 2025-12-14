@@ -64,15 +64,12 @@ export default function Home() {
 
   return (
     <main 
-      className="relative w-full h-screen bg-black overflow-hidden flex justify-center items-end cursor-pointer pb-0"
+      className="w-full h-screen bg-black overflow-hidden flex justify-center items-center cursor-pointer"
       onClick={rengiDegistir}
     >
       
-      {/* RESPONSIVE KAPSAYICI:
-         h-[45vh] -> Mobilde ekranın %45'i kadar yükseklik
-         md:h-[54vh] -> Bilgisayarda %54 yükseklik (10% küçültülmüş)
-      */}
-      <div className="relative w-full h-[45vh] md:h-[54vh] flex justify-center items-end">
+      {/* MERKEZ GRUBU: Çiçekler + Vazo (aynı boyut, ortada) */}
+      <div className="relative w-[60vw] h-[60vw] max-w-96 max-h-96 flex justify-center items-end">
         
         {/* --- ÇİÇEKLER --- */}
         {pozisyonlar.map((pos, index) => {
@@ -81,25 +78,20 @@ export default function Home() {
           return (
             <div
               key={pos.id}
-              // RESPONSIVE AYARLAR BURADA:
-              // bottom-[170px] -> Mobilde vazonun ağız hizası (küçültülmüş)
-              // md:bottom-[288px] -> Bilgisayarda vazonun ağız hizası (10% küçültülmüş)
-              // scale-[0.6] md:scale-75 -> Mobilde çiçekler daha küçük, desktop'te normal
-              className="absolute h-full aspect-square transition-all duration-1000 ease-in-out bottom-[170px] md:bottom-[288px] scale-[0.6] md:scale-75"
+              className="absolute w-full h-full transition-all duration-1000 ease-in-out"
               style={{
                 left: "50%",
-                // rotate ve scale değerlerini transform içinde tutuyoruz
-                transform: `translateX(-50%) rotate(${pos.rotate}deg) scale(${pos.scale})`,
-                transformOrigin: "bottom center",
+                bottom: "50%",
+                transform: `translateX(-50%) translateY(50%) rotate(${pos.rotate}deg) scale(${pos.scale})`,
+                transformOrigin: "center bottom",
                 zIndex: pos.zIndex, 
-                
                 filter: `hue-rotate(${aktifRenk.hue}deg) brightness(${aktifRenk.bri}) saturate(${aktifRenk.sat})`,
               }}
             >
               <div
-                className="h-full w-full"
+                className="w-full h-full"
                 style={{
-                  transformOrigin: "bottom center",
+                  transformOrigin: "center bottom",
                   animation: `narinRuzgar 5s ease-in-out infinite alternate`,
                   animationDelay: `${3 + pos.delay}s`
                 }}
@@ -108,7 +100,7 @@ export default function Home() {
                   animationData={cicekData} 
                   loop={false} 
                   autoplay={true}
-                  className="h-full w-full"
+                  className="w-full h-full"
                 />
               </div>
             </div>
@@ -116,15 +108,11 @@ export default function Home() {
         })}
 
         {/* --- VAZO --- */}
-        {/* RESPONSIVE VAZO:
-           w-[200px] -> Mobildeki genişlik (Sabit piksel daha güvenlidir)
-           md:w-[333px] -> Bilgisayardaki genişlik (10% küçültülmüş)
-        */}
-        <div className="absolute bottom-0 z-20 w-[200px] md:w-[333px] opacity-70 saturate-50 brightness-100 drop-shadow-2xl transition-all duration-500">
+        <div className="absolute bottom-0 z-20 w-full h-1/2 opacity-70 saturate-50 brightness-100 drop-shadow-2xl">
            <img 
              src="/Bal-m/vazo.png"
              alt="Antik Vazo"
-             className="w-full h-auto"
+             className="w-full h-full object-contain"
              loading="eager"
            />
         </div>
