@@ -122,7 +122,7 @@ export default function Home() {
         */}
         <div className="absolute bottom-0 z-20 w-[220px] md:w-[370px] opacity-70 saturate-50 brightness-100 drop-shadow-2xl transition-all duration-500">
            <img 
-             src="/Bal-m/vazo.png"
+             src="vazo.png"
              alt="Antik Vazo"
              className="w-full h-auto"
            />
