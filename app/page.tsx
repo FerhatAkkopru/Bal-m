@@ -69,10 +69,10 @@ export default function Home() {
     >
       
       {/* RESPONSIVE KAPSAYICI:
-         h-[50vh] -> Mobilde ekranın yarısı kadar yükseklik
-         md:h-[60vh] -> Bilgisayarda %60 yükseklik
+         h-[45vh] -> Mobilde ekranın %45'i kadar yükseklik
+         md:h-[54vh] -> Bilgisayarda %54 yükseklik (10% küçültülmüş)
       */}
-      <div className="relative w-full h-[50vh] md:h-[60vh] flex justify-center items-end">
+      <div className="relative w-full h-[45vh] md:h-[54vh] flex justify-center items-end">
         
         {/* --- ÇİÇEKLER --- */}
         {pozisyonlar.map((pos, index) => {
@@ -122,9 +122,10 @@ export default function Home() {
         */}
         <div className="absolute bottom-0 z-20 w-[220px] md:w-[370px] opacity-70 saturate-50 brightness-100 drop-shadow-2xl transition-all duration-500">
            <img 
-             src="vazo.png"
+             src="/Bal-m/vazo.png"
              alt="Antik Vazo"
              className="w-full h-auto"
+             loading="eager"
            />
         </div>
 
