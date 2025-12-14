@@ -19,7 +19,7 @@ export default function Home() {
     { id: 7, rotate: 0,   scale: 1.1, zIndex: 10, delay: 1.5 },
   ];
 
-  // --- RENK PALETLERİ ---
+  // --- RENK PALETLERİ (Aynen korundu) ---
   const paletler = [
     // 1. SONBAHAR & OKYANUS
     [
@@ -68,34 +68,33 @@ export default function Home() {
       onClick={rengiDegistir}
     >
       
-      {/* ANA SAHNE KUTUSU:
-        - Yükseklik: Ekranın %60'ı (h-[60vh]). Mobil ve desktopta taşmaz.
-        - En/Boy Oranı: 3/5 (aspect-[3/5]). Vazo ve çiçeklerin dik formuna uygun.
-        - Relative: İçindeki elemanları buna göre konumlandıracağız.
+      {/* ANA KAPSAYICI 
+        aspect-[3/6]: Daha uzun ince bir yapı (Vazo + Çiçek toplamı için)
+        h-[70vh]: Ekranın %70 yüksekliğini kaplar.
       */}
-      <div className="relative h-[60vh] aspect-[3/5] border border-white/5 bg-white/5 rounded-xl"> {/* Sınırları görmek istersen border'ı açabilirsin */}
+      <div className="relative h-[70vh] aspect-[3/6] flex flex-col items-center justify-end">
         
-        {/* 1. ÇİÇEKLER KATMANI (Üst 2/3'lük kısım)
-          - Top: 0
-          - Height: %66.6 (Yaklaşık 2/3)
-          - Çiçeklerin "bottom" noktası tam olarak bu kutunun altına (vazonun ortasına) gelir.
+        {/* --- ÇİÇEKLER BÖLÜMÜ --- 
+            height: 52% -> Yüzde 50 yerine 52 yaptık ki saplar vazonun ağzının çok az içine girsin (havada uçmasın).
+            bottom: Vazonun tepesine denk gelir.
+            z-10: Vazonun ARKASINDA kalması için (Vazo z-20). Saplar vazonun içine giriyormuş gibi görünür.
         */}
-        <div className="absolute top-0 left-0 w-full h-[66.66%] z-10 pointer-events-none">
+        <div className="absolute top-0 w-full h-[52%] z-10 pointer-events-none">
           {pozisyonlar.map((pos, index) => {
             const aktifRenk = paletler[paletIndex][index];
             return (
               <div
                 key={pos.id}
-                className="absolute w-full h-full left-0 top-0 flex justify-center items-end transition-all duration-1000"
+                className="absolute w-full h-full left-0 bottom-0 flex justify-center items-end transition-all duration-1000"
                 style={{
-                  // Çiçekleri döndürürken tam alt orta noktayı baz alıyoruz
+                  // ÖNEMLİ: Çiçekler kutunun en altından (bottom) referans alarak döner.
+                  // Kutunun en altı = Vazonun ağzı.
                   transformOrigin: "bottom center",
                   transform: `rotate(${pos.rotate}deg) scale(${pos.scale})`,
                   zIndex: pos.zIndex, 
                   filter: `hue-rotate(${aktifRenk.hue}deg) brightness(${aktifRenk.bri}) saturate(${aktifRenk.sat})`,
                 }}
               >
-                {/* Rüzgar Animasyonu Wrapper */}
                 <div
                   className="w-full h-full origin-bottom"
                   style={{
@@ -107,7 +106,7 @@ export default function Home() {
                     animationData={cicekData} 
                     loop={false} 
                     autoplay={true}
-                    className="w-full h-full object-contain" // object-contain önemli
+                    className="w-full h-full object-contain" 
                   />
                 </div>
               </div>
@@ -115,12 +114,11 @@ export default function Home() {
           })}
         </div>
 
-        {/* 2. VAZO KATMANI (Alt 2/3'lük kısım)
-          - Bottom: 0
-          - Height: %66.6
-          - Vazonun tam ortası, yukarıdaki çiçek kutusunun bittiği yerle çakışır.
+        {/* --- VAZO BÖLÜMÜ --- 
+            height: 50% -> Toplam alanın yarısı.
+            z-20: Çiçeklerin önünde durmalı ki sapların başlangıç noktası vazo ağzının içinde kalsın.
         */}
-        <div className="absolute bottom-0 left-0 w-full h-[66.66%] z-20 flex justify-center items-end pointer-events-none">
+        <div className="absolute bottom-0 w-full h-[50%] z-20 flex justify-center items-end pointer-events-none">
            <img 
              src="/Bal-m/vazo.png"
              alt="Antik Vazo"
