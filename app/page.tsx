@@ -10,13 +10,13 @@ export default function Home() {
 
   // --- POZİSYONLAR ---
   const pozisyonlar = [
-    { id: 1, rotate: -45, scale: 0.81, zIndex: 1, delay: 0 },   
-    { id: 2, rotate: -25, scale: 0.9, zIndex: 5, delay: 0.5 }, 
-    { id: 3, rotate: -12, scale: 0.99, zIndex: 8, delay: 1.0 }, 
-    { id: 4, rotate: 45,  scale: 0.81, zIndex: 1, delay: 0.2 }, 
-    { id: 5, rotate: 25,  scale: 0.9, zIndex: 5, delay: 0.7 }, 
-    { id: 6, rotate: 12,  scale: 0.99, zIndex: 8, delay: 1.2 }, 
-    { id: 7, rotate: 0,   scale: 1.17, zIndex: 10, delay: 1.5 },
+    { id: 1, rotate: -45, scale: 0.85, zIndex: 1, delay: 0 },   
+    { id: 2, rotate: -30, scale: 0.9, zIndex: 5, delay: 0.5 }, 
+    { id: 3, rotate: -15, scale: 0.95, zIndex: 8, delay: 1.0 }, 
+    { id: 4, rotate: 45,  scale: 0.85, zIndex: 1, delay: 0.2 }, 
+    { id: 5, rotate: 30,  scale: 0.9, zIndex: 5, delay: 0.7 }, 
+    { id: 6, rotate: 15,  scale: 0.95, zIndex: 8, delay: 1.2 }, 
+    { id: 7, rotate: 0,   scale: 1.1, zIndex: 10, delay: 1.5 },
   ];
 
   // --- RENK PALETLERİ ---
@@ -68,51 +68,63 @@ export default function Home() {
       onClick={rengiDegistir}
     >
       
-      {/* MERKEZ GRUBU: Çiçekler + Vazo (aynı boyut, ortada) */}
-      <div className="relative w-[60vw] h-[60vw] max-w-96 max-h-96 flex justify-center items-end">
+      {/* ANA SAHNE KUTUSU:
+        - Yükseklik: Ekranın %60'ı (h-[60vh]). Mobil ve desktopta taşmaz.
+        - En/Boy Oranı: 3/5 (aspect-[3/5]). Vazo ve çiçeklerin dik formuna uygun.
+        - Relative: İçindeki elemanları buna göre konumlandıracağız.
+      */}
+      <div className="relative h-[60vh] aspect-[3/5] border border-white/5 bg-white/5 rounded-xl"> {/* Sınırları görmek istersen border'ı açabilirsin */}
         
-        {/* --- ÇİÇEKLER --- */}
-        {pozisyonlar.map((pos, index) => {
-          const aktifRenk = paletler[paletIndex][index];
-
-          return (
-            <div
-              key={pos.id}
-              className="absolute w-full h-full transition-all duration-1000 ease-in-out"
-              style={{
-                left: "50%",
-                bottom: "50%",
-                transform: `translateX(-50%) translateY(50%) rotate(${pos.rotate}deg) scale(${pos.scale})`,
-                transformOrigin: "center bottom",
-                zIndex: pos.zIndex, 
-                filter: `hue-rotate(${aktifRenk.hue}deg) brightness(${aktifRenk.bri}) saturate(${aktifRenk.sat})`,
-              }}
-            >
+        {/* 1. ÇİÇEKLER KATMANI (Üst 2/3'lük kısım)
+          - Top: 0
+          - Height: %66.6 (Yaklaşık 2/3)
+          - Çiçeklerin "bottom" noktası tam olarak bu kutunun altına (vazonun ortasına) gelir.
+        */}
+        <div className="absolute top-0 left-0 w-full h-[66.66%] z-10 pointer-events-none">
+          {pozisyonlar.map((pos, index) => {
+            const aktifRenk = paletler[paletIndex][index];
+            return (
               <div
-                className="w-full h-full"
+                key={pos.id}
+                className="absolute w-full h-full left-0 top-0 flex justify-center items-end transition-all duration-1000"
                 style={{
-                  transformOrigin: "center bottom",
-                  animation: `narinRuzgar 5s ease-in-out infinite alternate`,
-                  animationDelay: `${3 + pos.delay}s`
+                  // Çiçekleri döndürürken tam alt orta noktayı baz alıyoruz
+                  transformOrigin: "bottom center",
+                  transform: `rotate(${pos.rotate}deg) scale(${pos.scale})`,
+                  zIndex: pos.zIndex, 
+                  filter: `hue-rotate(${aktifRenk.hue}deg) brightness(${aktifRenk.bri}) saturate(${aktifRenk.sat})`,
                 }}
               >
-                <Lottie 
-                  animationData={cicekData} 
-                  loop={false} 
-                  autoplay={true}
-                  className="w-full h-full"
-                />
+                {/* Rüzgar Animasyonu Wrapper */}
+                <div
+                  className="w-full h-full origin-bottom"
+                  style={{
+                    animation: `narinRuzgar 5s ease-in-out infinite alternate`,
+                    animationDelay: `${3 + pos.delay}s`
+                  }}
+                >
+                  <Lottie 
+                    animationData={cicekData} 
+                    loop={false} 
+                    autoplay={true}
+                    className="w-full h-full object-contain" // object-contain önemli
+                  />
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
 
-        {/* --- VAZO --- */}
-        <div className="absolute bottom-0 z-20 w-full h-1/2 opacity-70 saturate-50 brightness-100 drop-shadow-2xl">
+        {/* 2. VAZO KATMANI (Alt 2/3'lük kısım)
+          - Bottom: 0
+          - Height: %66.6
+          - Vazonun tam ortası, yukarıdaki çiçek kutusunun bittiği yerle çakışır.
+        */}
+        <div className="absolute bottom-0 left-0 w-full h-[66.66%] z-20 flex justify-center items-end pointer-events-none">
            <img 
              src="/Bal-m/vazo.png"
              alt="Antik Vazo"
-             className="w-full h-full object-contain"
+             className="h-full w-full object-contain drop-shadow-2xl opacity-90"
              loading="eager"
            />
         </div>
@@ -121,10 +133,10 @@ export default function Home() {
 
       <style jsx global>{`
         @keyframes narinRuzgar {
-          0% { transform: rotate(0deg) skewX(0deg); }
-          33% { transform: rotate(1deg) skewX(2deg); }
-          66% { transform: rotate(-1deg) skewX(-2deg); }
-          100% { transform: rotate(0deg) skewX(0deg); }
+          0% { transform: rotate(0deg); }
+          25% { transform: rotate(2deg); }
+          75% { transform: rotate(-2deg); }
+          100% { transform: rotate(0deg); }
         }
       `}</style>
 
