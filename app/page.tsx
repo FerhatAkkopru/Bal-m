@@ -79,7 +79,7 @@ export default function Home() {
             bottom: Vazonun tepesine denk gelir.
             z-10: Vazonun ARKASINDA kalması için (Vazo z-20). Saplar vazonun içine giriyormuş gibi görünür.
         */}
-        <div className="absolute top-0 w-full h-[50%] z-10 pointer-events-none">
+        <div className="absolute top-0 w-full h-[55%] z-10 pointer-events-none">
           {pozisyonlar.map((pos, index) => {
             const aktifRenk = paletler[paletIndex][index];
             return (
