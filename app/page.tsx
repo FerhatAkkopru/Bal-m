@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Lottie from "lottie-react";
 import cicekData from "./Single line flower.json";
 
@@ -122,13 +121,10 @@ export default function Home() {
            md:w-[370px] -> Bilgisayardaki genişlik
         */}
         <div className="absolute bottom-0 z-20 w-[220px] md:w-[370px] opacity-70 saturate-50 brightness-100 drop-shadow-2xl transition-all duration-500">
-           <Image 
-             src="/vazo.png"
+           <img 
+             src="/Bal-m/vazo.png"
              alt="Antik Vazo"
-             width={370} 
-             height={500}
              className="w-full h-auto"
-             priority
            />
         </div>
 
