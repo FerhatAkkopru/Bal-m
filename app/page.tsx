@@ -82,10 +82,10 @@ export default function Home() {
             <div
               key={pos.id}
               // RESPONSIVE AYARLAR BURADA:
-              // bottom-[190px] -> Mobilde vazonun ağız hizası
-              // md:bottom-[320px] -> Bilgisayarda vazonun ağız hizası
-              // scale-75 md:scale-100 -> Mobilde çiçekler %25 daha küçük görünsün
-              className="absolute h-full aspect-square transition-all duration-1000 ease-in-out bottom-[190px] md:bottom-[320px] scale-75 md:scale-100"
+              // bottom-[170px] -> Mobilde vazonun ağız hizası (küçültülmüş)
+              // md:bottom-[288px] -> Bilgisayarda vazonun ağız hizası (10% küçültülmüş)
+              // scale-[0.6] md:scale-75 -> Mobilde çiçekler daha küçük, desktop'te normal
+              className="absolute h-full aspect-square transition-all duration-1000 ease-in-out bottom-[170px] md:bottom-[288px] scale-[0.6] md:scale-75"
               style={{
                 left: "50%",
                 // rotate ve scale değerlerini transform içinde tutuyoruz
@@ -117,10 +117,10 @@ export default function Home() {
 
         {/* --- VAZO --- */}
         {/* RESPONSIVE VAZO:
-           w-[220px] -> Mobildeki genişlik (Sabit piksel daha güvenlidir)
-           md:w-[370px] -> Bilgisayardaki genişlik
+           w-[200px] -> Mobildeki genişlik (Sabit piksel daha güvenlidir)
+           md:w-[333px] -> Bilgisayardaki genişlik (10% küçültülmüş)
         */}
-        <div className="absolute bottom-0 z-20 w-[220px] md:w-[370px] opacity-70 saturate-50 brightness-100 drop-shadow-2xl transition-all duration-500">
+        <div className="absolute bottom-0 z-20 w-[200px] md:w-[333px] opacity-70 saturate-50 brightness-100 drop-shadow-2xl transition-all duration-500">
            <img 
              src="/Bal-m/vazo.png"
              alt="Antik Vazo"
