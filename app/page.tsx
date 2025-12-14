@@ -1,65 +1,148 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
+import Lottie from "lottie-react";
+import cicekData from "./Single line flower.json";
 
 export default function Home() {
+  
+  const [paletIndex, setPaletIndex] = useState(0);
+
+  // --- POZİSYONLAR ---
+  const pozisyonlar = [
+    { id: 1, rotate: -45, scale: 0.9, zIndex: 1, delay: 0 },   
+    { id: 2, rotate: -25, scale: 1.0, zIndex: 5, delay: 0.5 }, 
+    { id: 3, rotate: -12, scale: 1.1, zIndex: 8, delay: 1.0 }, 
+    { id: 4, rotate: 45,  scale: 0.9, zIndex: 1, delay: 0.2 }, 
+    { id: 5, rotate: 25,  scale: 1.0, zIndex: 5, delay: 0.7 }, 
+    { id: 6, rotate: 12,  scale: 1.1, zIndex: 8, delay: 1.2 }, 
+    { id: 7, rotate: 0,   scale: 1.3, zIndex: 10, delay: 1.5 },
+  ];
+
+  // --- RENK PALETLERİ ---
+  const paletler = [
+    // 1. SONBAHAR & OKYANUS
+    [
+      { hue: 210, bri: 0.4, sat: 0.8 }, { hue: 195, bri: 0.7, sat: 0.9 },
+      { hue: 185, bri: 0.9, sat: 0.6 }, { hue: 15,  bri: 0.5, sat: 0.8 },
+      { hue: 25,  bri: 0.7, sat: 1.0 }, { hue: 25,  bri: 0.8, sat: 1.1 },
+      { hue: 45,  bri: 1.1, sat: 1.2 },
+    ],
+    // 2. ROMANTİK PASTEL
+    [
+      { hue: 170, bri: 1.2, sat: 0.8 }, { hue: 260, bri: 1.1, sat: 0.9 },
+      { hue: 320, bri: 1.1, sat: 0.8 }, { hue: 170, bri: 1.2, sat: 0.8 },
+      { hue: 260, bri: 1.1, sat: 0.9 }, { hue: 320, bri: 1.1, sat: 0.8 },
+      { hue: 340, bri: 1.2, sat: 1.0 },
+    ],
+    // 3. GÜN BATIMI
+    [
+      { hue: 0,   bri: 0.8, sat: 1.2 }, { hue: 20,  bri: 1.0, sat: 1.3 },
+      { hue: 40,  bri: 1.1, sat: 1.4 }, { hue: 0,   bri: 0.8, sat: 1.2 },
+      { hue: 20,  bri: 1.0, sat: 1.3 }, { hue: 40,  bri: 1.1, sat: 1.4 },
+      { hue: 10,  bri: 1.3, sat: 1.5 },
+    ],
+    // 4. UZAY GECESİ
+    [
+      { hue: 240, bri: 0.6, sat: 1.5 }, { hue: 270, bri: 0.9, sat: 1.5 },
+      { hue: 190, bri: 1.2, sat: 1.5 }, { hue: 240, bri: 0.6, sat: 1.5 },
+      { hue: 270, bri: 0.9, sat: 1.5 }, { hue: 190, bri: 1.2, sat: 1.5 },
+      { hue: 290, bri: 1.3, sat: 2.0 },
+    ],
+    // 5. DOĞA ANA
+    [
+      { hue: 100, bri: 0.8, sat: 0.9 }, { hue: 140, bri: 1.0, sat: 1.0 },
+      { hue: 60,  bri: 1.1, sat: 0.8 }, { hue: 100, bri: 0.8, sat: 0.9 },
+      { hue: 140, bri: 1.0, sat: 1.0 }, { hue: 60,  bri: 1.1, sat: 0.8 },
+      { hue: 120, bri: 1.2, sat: 1.2 },
+    ],
+  ];
+
+  const rengiDegistir = () => {
+    setPaletIndex((prev) => (prev + 1) % paletler.length);
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <main 
+      className="relative w-full h-screen bg-black overflow-hidden flex justify-center items-end cursor-pointer pb-0"
+      onClick={rengiDegistir}
+    >
+      
+      {/* RESPONSIVE KAPSAYICI:
+         h-[50vh] -> Mobilde ekranın yarısı kadar yükseklik
+         md:h-[60vh] -> Bilgisayarda %60 yükseklik
+      */}
+      <div className="relative w-full h-[50vh] md:h-[60vh] flex justify-center items-end">
+        
+        {/* --- ÇİÇEKLER --- */}
+        {pozisyonlar.map((pos, index) => {
+          const aktifRenk = paletler[paletIndex][index];
+
+          return (
+            <div
+              key={pos.id}
+              // RESPONSIVE AYARLAR BURADA:
+              // bottom-[190px] -> Mobilde vazonun ağız hizası
+              // md:bottom-[320px] -> Bilgisayarda vazonun ağız hizası
+              // scale-75 md:scale-100 -> Mobilde çiçekler %25 daha küçük görünsün
+              className="absolute h-full aspect-square transition-all duration-1000 ease-in-out bottom-[190px] md:bottom-[320px] scale-75 md:scale-100"
+              style={{
+                left: "50%",
+                // rotate ve scale değerlerini transform içinde tutuyoruz
+                transform: `translateX(-50%) rotate(${pos.rotate}deg) scale(${pos.scale})`,
+                transformOrigin: "bottom center",
+                zIndex: pos.zIndex, 
+                
+                filter: `hue-rotate(${aktifRenk.hue}deg) brightness(${aktifRenk.bri}) saturate(${aktifRenk.sat})`,
+              }}
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+              <div
+                className="h-full w-full"
+                style={{
+                  transformOrigin: "bottom center",
+                  animation: `narinRuzgar 5s ease-in-out infinite alternate`,
+                  animationDelay: `${3 + pos.delay}s`
+                }}
+              >
+                <Lottie 
+                  animationData={cicekData} 
+                  loop={false} 
+                  autoplay={true}
+                  className="h-full w-full"
+                />
+              </div>
+            </div>
+          );
+        })}
+
+        {/* --- VAZO --- */}
+        {/* RESPONSIVE VAZO:
+           w-[220px] -> Mobildeki genişlik (Sabit piksel daha güvenlidir)
+           md:w-[370px] -> Bilgisayardaki genişlik
+        */}
+        <div className="absolute bottom-0 z-20 w-[220px] md:w-[370px] opacity-70 saturate-50 brightness-100 drop-shadow-2xl transition-all duration-500">
+           <Image 
+             src="/vazo.png"
+             alt="Antik Vazo"
+             width={370} 
+             height={500}
+             className="w-full h-auto"
+             priority
+           />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+
+      </div>
+
+      <style jsx global>{`
+        @keyframes narinRuzgar {
+          0% { transform: rotate(0deg) skewX(0deg); }
+          33% { transform: rotate(1deg) skewX(2deg); }
+          66% { transform: rotate(-1deg) skewX(-2deg); }
+          100% { transform: rotate(0deg) skewX(0deg); }
+        }
+      `}</style>
+
+    </main>
   );
 }
