@@ -10,13 +10,13 @@ export default function Home() {
 
   // --- POZİSYONLAR ---
   const pozisyonlar = [
-    { id: 1, rotate: -45, scale: 0.9, zIndex: 1, delay: 0 },   
-    { id: 2, rotate: -25, scale: 1.0, zIndex: 5, delay: 0.5 }, 
-    { id: 3, rotate: -12, scale: 1.1, zIndex: 8, delay: 1.0 }, 
-    { id: 4, rotate: 45,  scale: 0.9, zIndex: 1, delay: 0.2 }, 
-    { id: 5, rotate: 25,  scale: 1.0, zIndex: 5, delay: 0.7 }, 
-    { id: 6, rotate: 12,  scale: 1.1, zIndex: 8, delay: 1.2 }, 
-    { id: 7, rotate: 0,   scale: 1.3, zIndex: 10, delay: 1.5 },
+    { id: 1, rotate: -45, scale: 0.81, zIndex: 1, delay: 0 },   
+    { id: 2, rotate: -25, scale: 0.9, zIndex: 5, delay: 0.5 }, 
+    { id: 3, rotate: -12, scale: 0.99, zIndex: 8, delay: 1.0 }, 
+    { id: 4, rotate: 45,  scale: 0.81, zIndex: 1, delay: 0.2 }, 
+    { id: 5, rotate: 25,  scale: 0.9, zIndex: 5, delay: 0.7 }, 
+    { id: 6, rotate: 12,  scale: 0.99, zIndex: 8, delay: 1.2 }, 
+    { id: 7, rotate: 0,   scale: 1.17, zIndex: 10, delay: 1.5 },
   ];
 
   // --- RENK PALETLERİ ---
